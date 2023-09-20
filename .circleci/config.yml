@@ -1,0 +1,19 @@
+version: 2.1
+orbs:
+  terraform: circleci/terraform@3.2.1
+
+
+jobs:
+  tf-validate:
+    executor: terraform/default
+    steps:
+      - terraform/fmt
+      - terraform/validate
+
+workflows:
+  main:
+    jobs:
+      - tf-validate:
+          name: Validate Terraform Plan
+
+# VS Code Extension Version: 1.4.0
