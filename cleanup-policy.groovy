@@ -30,7 +30,7 @@ def attachPolicy (policyName, repositoryName) {
         repo.start()
     } catch (e) {
         log.info("Attaching policy fail")
-        log.warning(e)
+        log.warning(e.dump())
     }
 }
 
