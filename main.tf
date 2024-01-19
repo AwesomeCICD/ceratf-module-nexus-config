@@ -96,7 +96,7 @@ resource "nexus_script" "cleanup_policy_create" {
   depends_on = [nexus_repository_docker_hosted.cera_hosted]
   lifecycle {
     replace_triggered_by = [
-      null_resource.always_run.timestamp
+      null_resource.always_run.id
     ]
   }
 }
