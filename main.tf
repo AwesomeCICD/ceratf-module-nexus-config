@@ -80,7 +80,6 @@ resource "nexus_security_user" "cera_deployer" {
 resource "nexus_security_realms" "example" {
   active = [
     "NexusAuthenticatingRealm",
-    "NexusAuthorizingRealm",
     "DockerToken"
   ]
 }
