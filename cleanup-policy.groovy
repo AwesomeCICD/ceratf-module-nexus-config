@@ -11,10 +11,11 @@ def createPolicy (policyName) {
         cleanupPolicy.setNotes('')
         cleanupPolicy.setMode('deletion')
         cleanupPolicy.setFormat('docker')
-        cleanupPolicy.setCriteria(['lastDownloaded': retention.toString()])
+        cleanupPolicy.setCriteria(['lastDownloaded': retention.toString(),'regex': '.*cera-.*'])
         policyStorage.add(cleanupPolicy)
     } catch (e) {
         log.info("Cleanup policy already exists, skipping...")
+        log.warning(e.dump())
     }
 
 }
