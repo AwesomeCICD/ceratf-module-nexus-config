@@ -16,7 +16,7 @@ resource "vault_kv_secret_v2" "cera_deployer" {
 }
 
 resource "nexus_security_anonymous" "system" {
-  enabled    = true
+  enabled = true
 }
 
 resource "nexus_repository_docker_hosted" "cera_hosted" {
@@ -84,9 +84,19 @@ resource "nexus_security_realms" "example" {
   ]
 }
 
+resource "null_resource" "always_run" {
+  triggers = {
+    timestamp = "${timestamp()}"
+  }
+}
 resource "nexus_script" "cleanup_policy_create" {
-  name    = "create-docker-cleanup-policy"
-  type    = "groovy"
-  content = file("${path.module}/cleanup-policy.groovy")
-  depends_on = [ nexus_repository_docker_hosted.cera_hosted ]
+  name       = "create-docker-cleanup-policy"
+  type       = "groovy"
+  content    = file("${path.module}/cleanup-policy.groovy")
+  depends_on = [nexus_repository_docker_hosted.cera_hosted]
+  lifecycle {
+    replace_triggered_by = [
+      null_resource.always_run
+    ]
+  }
 }
