@@ -45,4 +45,4 @@ def deletePolicy(String name) {
 
 deletePolicy('dockerCleanupPolicy') //allows changes to existing
 createPolicy('dockerCleanupPolicy')
-attachPolicy('dockerCleanupPolicy', 'docker-cera-hosted')
+attachPolicy('dockerCleanupPolicy', 'cera-hosted')
