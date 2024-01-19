@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   terraform: circleci/terraform@3.2.1
+  semver: cci-labs/semver@0.0.4
 
 
 jobs:
@@ -15,5 +16,14 @@ workflows:
     jobs:
       - tf-validate:
           name: Validate Terraform Plan
+      - semver/bump:
+          post-steps:
+            - semver/tagremote
+          pre-steps:
+            - semver/getfromgit
+          requires: [Validate Terraform Plan]
+          filters:
+            branches:
+              only: [main]
 
 # VS Code Extension Version: 1.4.0
