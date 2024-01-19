@@ -84,3 +84,10 @@ resource "nexus_security_realms" "example" {
     "DockerToken"
   ]
 }
+
+resource "nexus_script" "cleanup_policy_create" {
+  name    = "create-docker-cleanup-policy"
+  type    = "groovy"
+  content = file("${path.module}/cleanup-policy.groovy")
+  depends_on = [ nexus_repository_docker_hosted.cera_hosted ]
+}
