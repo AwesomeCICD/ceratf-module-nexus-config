@@ -45,7 +45,7 @@ resource "nexus_repository_helm_hosted" "cera_helm" {
   name   = "cera-helm"
   online = true
 
-  cleanup = {
+  cleanup  {
     policy_names = ["dockerCleanupPolicy"]
   }
 
