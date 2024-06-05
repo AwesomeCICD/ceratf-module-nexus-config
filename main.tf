@@ -34,10 +34,11 @@ resource "nexus_repository_docker_hosted" "cera_hosted" {
     strict_content_type_validation = true
     write_policy                   = "ALLOW"
   }
+  cleanup  {
+    policy_names = ["dockerCleanupPolicy"]
+  }
 
-  # cleanup {
-  #   policy_names = []
-  # }
+  depends_on = [ nexus_script.cleanup_policy_create ]
 
 }
 
@@ -90,10 +91,9 @@ resource "null_resource" "always_run" {
   }
 }
 resource "nexus_script" "cleanup_policy_create" {
-  name       = "create-docker-cleanup-policy"
+  name       = "create-docker-cleanup-policy-${formatdate("YYYYMMDDhhmmss",timestamp())}"
   type       = "groovy"
   content    = file("${path.module}/cleanup-policy.groovy")
-  depends_on = [nexus_repository_docker_hosted.cera_hosted]
   lifecycle {
     replace_triggered_by = [
       null_resource.always_run.id

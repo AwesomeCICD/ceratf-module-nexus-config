@@ -39,12 +39,14 @@ def deletePolicy(String name) {
     def cleanupPolicyStorage = container.lookup(CleanupPolicyStorage.class.getName())
     def cleanupPolicyComponent = container.lookup(CleanupPolicyComponent.class.getName())
     if (cleanupPolicyStorage.exists(name)) {
+        log.info("matching policy name found")
         cleanupPolicyStorage.remove(cleanupPolicyStorage.get(name))
         return true
     }
+    log.warn("deleting policy fail")
     return false
 }
 
 deletePolicy('dockerCleanupPolicy') //allows changes to existing
 createPolicy('dockerCleanupPolicy')
-attachPolicy('dockerCleanupPolicy', 'cera-hosted')
+//attachPolicy('dockerCleanupPolicy', 'cera-hosted')
