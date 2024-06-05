@@ -45,6 +45,10 @@ resource "nexus_repository_helm_hosted" "cera_helm" {
   name   = "cera-helm"
   online = true
 
+  cleanup = {
+    policy_names = ["dockerCleanupPolicy"]
+  }
+
   storage {
     blob_store_name                = "default"
     strict_content_type_validation = false
