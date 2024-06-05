@@ -91,7 +91,7 @@ resource "null_resource" "always_run" {
   }
 }
 resource "nexus_script" "cleanup_policy_create" {
-  name       = "create-docker-cleanup-policy-${timestamp()}"
+  name       = "create-docker-cleanup-policy-${formatdate("YYYYMMDDhhmmss",timestamp())}"
   type       = "groovy"
   content    = file("${path.module}/cleanup-policy.groovy")
   lifecycle {
