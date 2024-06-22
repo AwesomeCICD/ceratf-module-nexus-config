@@ -96,7 +96,7 @@ resource "nexus_script" "cleanup_policy_create" {
   content    = file("${path.module}/cleanup-policy.groovy")
   lifecycle {
     replace_triggered_by = [
-      nexus_security_anonymous.system
+      null_resource.always_run
     ]
   }
 }
