@@ -4,9 +4,29 @@ resource "random_password" "deployer_password" {
   special = false
 }
 
+#
+# DEPRECATION NOTICE:  
+# A single nexus user `cera-deployer` is saved as 2 secret paths in vault.
+# The username was always transparet (a var) to deploys, but they needed the path
+# once all apps use new path, retire.
+#
+
+# old path
 resource "vault_kv_secret_v2" "cera_deployer" {
   mount = var.vault_mount_path
   name  = "nexus/boa-deployer"
+  data_json = jsonencode(
+    {
+      username = nexus_security_user.cera_deployer.userid,
+      password = random_password.deployer_password.result
+    }
+  )
+}
+
+# new path
+resource "vault_kv_secret_v2" "the_real_cera_deployer" {
+  mount = var.vault_mount_path
+  name  = "nexus/cera-deployer"
   data_json = jsonencode(
     {
       username = nexus_security_user.cera_deployer.userid,
